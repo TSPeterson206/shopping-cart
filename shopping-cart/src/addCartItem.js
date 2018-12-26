@@ -21,14 +21,14 @@ class AddCartItem extends Component {
 
     const newItem = {
       product: {
-        id: this.state.id,
+        id: parseInt(this.state.id),
         name: findIt.name,
         priceInCents: findIt.priceInCents
       },
       quantity: parseInt(this.state.qty)
     }
 
-    this.setState({qty:''})
+    this.setState({qty:'', id:''})
   };
 
   handleChange = (event) => {
