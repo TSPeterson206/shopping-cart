@@ -10,29 +10,35 @@ class AddCartItem extends Component {
     }
   }
 
-  isPresent(ele) {
-    return ele.id === this.state.id
+  // make sure that `this` is bound to the function, otherwise
+  // it won't know what `this.state` is
+  isPresent = (ele) => {
+    console.log(ele, this.state.id)
+    return ele.id === parseInt(this.state.id)
   }
 
   createItem = (event) => {
   event.preventDefault();
-
-  const findIt = this.props.products.find(isPresent)
+  
+  // since `isPresent` is a method in the object, you should use this.
+  const findIt = this.props.products.find(this.isPresent)
 
     const newItem = {
-      product: {
-        id: parseInt(this.state.id),
-        name: findIt.name,
-        priceInCents: findIt.priceInCents
-      },
+      // product is now set to whatever you have found.
+      product: findIt,
       quantity: parseInt(this.state.qty)
     }
+
+    console.log(newItem)
+
+    // Invoke method that gets passed down
+    // to add data to the cart
+    this.props.addItemToCart(newItem)
 
     this.setState({qty:'', id:''})
   };
 
   handleChange = (event) => {
-
     this.setState({
       [event.target.name] : event.target.value
     })
@@ -46,6 +52,8 @@ class AddCartItem extends Component {
       <input type="number" name="qty" value={this.state.qty} onChange={this.handleChange} /><br></br>
       <label for="itemList">Item List</label><br></br>
       <select name="id" value={this.state.id}  onChange={this.handleChange}>
+        {/* Add a default option */}
+        <option>Select an Item...</option>
         {
           this.props.products.map(product => {
             return <option value={product.id}>{product.name} , {product.priceInCents}</option>
