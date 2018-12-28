@@ -9,7 +9,7 @@ constructor(props) {
 
 render() {
   return (
-    <div className="container">
+    <div className="container items">
   <h1>Cart Items</h1>
   <div className="list-group">
     <div className="list-group-item">
